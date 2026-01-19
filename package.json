@@ -11,13 +11,19 @@
   "dependencies": {
     "@astrojs/react": "^4.4.2",
     "@astrojs/svelte": "^7.2.5",
+    "@radix-ui/react-slot": "^1.2.4",
     "@tailwindcss/vite": "^4.1.18",
     "@types/react": "^19.2.8",
     "@types/react-dom": "^19.2.3",
     "astro": "^5.16.9",
+    "class-variance-authority": "^0.7.1",
+    "clsx": "^2.1.1",
+    "lucide-react": "^0.562.0",
+    "lucide-svelte": "^0.562.0",
     "react": "^19.2.3",
     "react-dom": "^19.2.3",
     "svelte": "^5.46.3",
+    "tailwind-merge": "^3.4.0",
     "tailwindcss": "^4.1.18",
     "typescript": "^5.9.3"
   }

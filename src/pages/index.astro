@@ -1,11 +1,9 @@
 ---
-import Welcome from '../components/Welcome.astro';
-import Layout from '../layouts/Layout.astro';
-
-// Welcome to Astro! Wondering what to do next? Check out the Astro documentation at https://docs.astro.build
-// Don't want to use any of this? Delete everything in this file, the `assets`, `components`, and `layouts` directories, and start fresh.
+// 1. The "Frontmatter" (Server-Side Logic) goes between these fences
+import Layout from "../layouts/Layout.astro";
+import { LandingPage } from "../components/LandingPage"; // Import the React file you just reverted
 ---
 
-<Layout>
-	<Welcome />
+<Layout title="Sean Duffie | Portfolio">
+  <LandingPage client:load />
 </Layout>
