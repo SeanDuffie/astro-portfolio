@@ -3,229 +3,26 @@ import { ArrowLeft, ExternalLink, Github, Calendar, CheckCircle, Circle } from '
 import { Button } from '@/components/ui/button';
 import { Card } from '@/components/ui/card';
 import { Badge } from '@/components/ui/badge';
+import type { Project } from '@/data/projects';
 
 interface ProjectDetailPageProps {
-  projectId: number;
-  onBack: () => void;
+  // projectId: number;
+  // onBack: () => void;
+  project: Project; // Accept the full project object
 }
 
-export function ProjectDetailPage({ projectId, onBack }: ProjectDetailPageProps) {
-  // This would normally fetch project data based on projectId
-  /** FIXME: Replace this with a consolidated database. */
-  const projectsData: Record<number, ProjectData> = {
-    1: {
-      id: 1,
-      title: 'E-Commerce Platform',
-      subtitle: 'Full-stack online shopping experience with modern payment integration',
-      heroImage: 'https://images.unsplash.com/photo-1557821552-17105176677c?w=1200',
-      description: 'A comprehensive e-commerce platform built with Next.js and TypeScript, featuring real-time inventory management, secure payment processing through Stripe, and an intuitive admin dashboard. The platform handles thousands of products across multiple categories with advanced search and filtering capabilities.',
-      youtubeVideoId: 'dQw4w9WgXcQ',
-      externalLink: 'https://demo.example.com',
-      githubLink: 'https://github.com/username/ecommerce',
-      technologies: [
-        {
-          category: 'Frontend',
-          tools: ['Next.js 14', 'TypeScript', 'Tailwind CSS', 'React Query', 'Zustand'],
-        },
-        {
-          category: 'Backend',
-          tools: ['Next.js API Routes', 'Prisma ORM', 'PostgreSQL', 'Redis'],
-        },
-        {
-          category: 'Payment & Services',
-          tools: ['Stripe', 'SendGrid', 'AWS S3', 'Vercel'],
-        },
-        {
-          category: 'Testing & DevOps',
-          tools: ['Jest', 'Playwright', 'GitHub Actions', 'Docker'],
-        },
-      ],
-      timeline: [
-        {
-          phase: 'Planning & Design',
-          date: 'Jan 2024',
-          description: 'Requirements gathering, wireframing, and system architecture design',
-          status: 'completed',
-        },
-        {
-          phase: 'MVP Development',
-          date: 'Feb 2024',
-          description: 'Core features including product catalog, cart, and basic checkout',
-          status: 'completed',
-        },
-        {
-          phase: 'Payment Integration',
-          date: 'Mar 2024',
-          description: 'Stripe payment gateway integration and order processing',
-          status: 'completed',
-        },
-        {
-          phase: 'Admin Dashboard',
-          date: 'Apr 2024',
-          description: 'Built comprehensive admin panel for inventory and order management',
-          status: 'completed',
-        },
-        {
-          phase: 'Testing & Optimization',
-          date: 'May 2024',
-          description: 'Performance optimization and comprehensive testing',
-          status: 'completed',
-        },
-        {
-          phase: 'Launch & Monitoring',
-          date: 'Jun 2024',
-          description: 'Production deployment and ongoing maintenance',
-          status: 'completed',
-        },
-      ],
-      challenges: [
-        'Implementing real-time inventory synchronization across multiple warehouse locations',
-        'Optimizing database queries for product search with complex filtering requirements',
-        'Ensuring PCI compliance and secure payment processing',
-        'Building a responsive admin dashboard that works seamlessly on mobile devices',
-      ],
-      outcomes: [
-        'Successfully processed over 10,000 orders in the first month',
-        'Achieved 99.9% uptime with average page load time under 1 second',
-        'Reduced cart abandonment rate by 35% through optimized checkout flow',
-        'Generated $500K+ in revenue within the first quarter',
-      ],
-      team: ['Lead Developer', '2 Frontend Developers', '1 Backend Developer', 'UI/UX Designer', 'Product Manager'],
-    },
-    2: {
-      id: 2,
-      title: 'AI Chat Application',
-      subtitle: 'Real-time conversational AI powered by OpenAI',
-      heroImage: 'https://images.unsplash.com/photo-1587825140708-dfaf72ae4b04?w=1200',
-      description: 'An intelligent chat application that leverages OpenAI\'s GPT models to provide context-aware responses. Features include real-time messaging, conversation history, user authentication, and customizable AI personalities.',
-      youtubeVideoId: 'dQw4w9WgXcQ',
-      externalLink: 'https://chat.example.com',
-      githubLink: 'https://github.com/username/ai-chat',
-      technologies: [
-        {
-          category: 'Frontend',
-          tools: ['React 18', 'TypeScript', 'Socket.io Client', 'TailwindCSS', 'Framer Motion'],
-        },
-        {
-          category: 'Backend',
-          tools: ['Node.js', 'Express', 'Socket.io', 'MongoDB', 'Redis'],
-        },
-        {
-          category: 'AI & Services',
-          tools: ['OpenAI API', 'JWT Auth', 'AWS Lambda', 'CloudFront'],
-        },
-      ],
-      timeline: [
-        {
-          phase: 'Prototype',
-          date: 'Mar 2024',
-          description: 'Initial concept and basic chat interface',
-          status: 'completed',
-        },
-        {
-          phase: 'AI Integration',
-          date: 'Apr 2024',
-          description: 'OpenAI API integration and response optimization',
-          status: 'completed',
-        },
-        {
-          phase: 'Real-time Features',
-          date: 'May 2024',
-          description: 'WebSocket implementation for real-time messaging',
-          status: 'completed',
-        },
-        {
-          phase: 'Beta Release',
-          date: 'Jun 2024',
-          description: 'Limited beta testing with early users',
-          status: 'completed',
-        },
-      ],
-      challenges: [
-        'Managing API costs while maintaining responsive user experience',
-        'Implementing context retention for longer conversations',
-        'Handling rate limiting and graceful degradation',
-      ],
-      outcomes: [
-        '5,000+ active users in the first month',
-        'Average session duration of 15 minutes',
-        '95% user satisfaction rating',
-      ],
-      team: ['Solo Project', 'Consulting UI/UX Designer'],
-    },
-    3: {
-      id: 3,
-      title: 'Analytics Dashboard',
-      subtitle: 'Business intelligence platform with interactive data visualization',
-      heroImage: 'https://images.unsplash.com/photo-1551288049-bebda4e38f71?w=1200',
-      description: 'A comprehensive analytics dashboard that helps businesses visualize and understand their data. Features include customizable charts, real-time updates, data export capabilities, and role-based access control.',
-      youtubeVideoId: 'dQw4w9WgXcQ',
-      githubLink: 'https://github.com/username/analytics',
-      technologies: [
-        {
-          category: 'Frontend',
-          tools: ['React', 'D3.js', 'Recharts', 'TypeScript', 'Redux Toolkit'],
-        },
-        {
-          category: 'Backend',
-          tools: ['Express', 'PostgreSQL', 'TimescaleDB', 'Node.js'],
-        },
-        {
-          category: 'Infrastructure',
-          tools: ['Docker', 'Kubernetes', 'Prometheus', 'Grafana'],
-        },
-      ],
-      timeline: [
-        {
-          phase: 'Research & Planning',
-          date: 'Sep 2023',
-          description: 'User research and feature prioritization',
-          status: 'completed',
-        },
-        {
-          phase: 'Core Dashboard',
-          date: 'Oct 2023',
-          description: 'Base dashboard with essential charts and metrics',
-          status: 'completed',
-        },
-        {
-          phase: 'Advanced Features',
-          date: 'Nov 2023',
-          description: 'Custom reports, filters, and data export',
-          status: 'completed',
-        },
-        {
-          phase: 'Enterprise Features',
-          date: 'Dec 2023',
-          description: 'Role-based access, API access, white-labeling',
-          status: 'completed',
-        },
-      ],
-      challenges: [
-        'Optimizing render performance for large datasets',
-        'Creating an intuitive interface for complex data operations',
-        'Implementing efficient data aggregation for real-time updates',
-      ],
-      outcomes: [
-        'Deployed to 50+ enterprise clients',
-        'Handles 10M+ data points daily',
-        'Reduced reporting time by 70%',
-      ],
-      team: ['Tech Lead', '3 Developers', 'Data Analyst', 'DevOps Engineer'],
-    },
-  };
-
-  /** This is used to select the project from the database */
-  const project = projectsData[projectId] || projectsData[1];
+export function ProjectDetailPage({ project }: ProjectDetailPageProps) {
 
   return (
     <div className="min-h-screen">
       {/* Back Button */}
       <div className="bg-background/80 backdrop-blur-md border-b transition-colors duration-200">
         <div className="max-w-7xl mx-auto px-4 py-4">
-          <Button variant="ghost" onClick={onBack} className="gap-2 text-foreground">
-            <ArrowLeft className="w-4 h-4" />
-            Back to Projects
+          <Button variant="ghost" className="gap-2 text-foreground">
+            <a href='./projects'>
+              <ArrowLeft className="w-4 h-4" />
+              Back to Projects
+            </a>
           </Button>
         </div>
       </div>

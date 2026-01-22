@@ -4,26 +4,20 @@ import { Card } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
+import { projects } from '@/data/projects';
 
-interface ProjectsPageProps {
-  onProjectClick: (projectId: number) => void;
-}
-
-export function ProjectsPage({ onProjectClick }: ProjectsPageProps) {
+export function ProjectsPage() {
   const [searchQuery, setSearchQuery] = useState('');
   const [selectedCategory, setSelectedCategory] = useState('all');
-
   const categories = ['all', 'web-app', 'mobile', 'open-source', 'personal'];
-
-  /** FIXME: Move this to a consolidated project page */
-
 
   const filteredProjects = projects.filter((project) => {
     const matchesSearch = project.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.description.toLowerCase().includes(searchQuery.toLowerCase()) ||
       project.tags.some(tag => tag.toLowerCase().includes(searchQuery.toLowerCase()));
     
-    const matchesCategory = selectedCategory === 'all' || project.category === selectedCategory;
+    const matchesCategory = selectedCategory === 'all' ||
+      (project.technologies.some(t => t.category.toLowerCase().includes(selectedCategory)));
     
     return matchesSearch && matchesCategory;
   });
@@ -72,70 +66,58 @@ export function ProjectsPage({ onProjectClick }: ProjectsPageProps) {
         {/* Projects Grid */}
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
           {filteredProjects.map((project) => (
-            <Card 
-              key={project.id} 
-              className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer bg-card dark:border-gray-700"
-              onClick={() => onProjectClick(project.id)}
-            >
-              <div className="aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden">
-                <img
-                  src={project.image}
-                  alt={project.title}
-                  className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
-                />
-              </div>
-              
-              <div className="p-6">
-                <div className="flex items-start justify-between mb-2">
-                  <h3 className="flex-1 text-foreground">{project.title}</h3>
-                  <span className="text-xs text-muted-foreground ml-2">{project.year}</span>
+            <a href={`/projects/${project.id}`} key={project.id} className='block group'>
+              <Card className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer bg-card dark:border-gray-700">
+                <div className="aspect-video bg-gray-200 dark:bg-gray-700 overflow-hidden">
+                  <img
+                    src={project.heroImage}
+                    alt={project.title}
+                    className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+                  />
                 </div>
                 
-                <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
-                  {project.description}
-                </p>
-                
-                <div className="flex flex-wrap gap-2 mb-4">
-                  {project.tags.slice(0, 4).map((tag) => (
-                    <Badge key={tag} variant="secondary" className="text-xs">
-                      {tag}
-                    </Badge>
-                  ))}
-                  {project.tags.length > 4 && (
-                    <Badge variant="secondary" className="text-xs">
-                      +{project.tags.length - 4}
-                    </Badge>
-                  )}
-                </div>
-                
-                <div className="flex gap-2">
-                  <Button 
-                    variant="outline" 
-                    size="sm" 
-                    className="flex-1 gap-2" 
-                    // onClick={(e) => {e.stopPropagation(); window.open(project.github, '_blank');}}
-                  >
-                    <a href=''>
-                      <Github className="w-4 h-4" />
-                      Code
-                    </a>
-                  </Button>
-                  {project.demo && (
-                    <Button 
-                      size="sm" 
-                      className="flex-1 gap-2"
-                      // onClick={(e) => {e.stopPropagation(); window.open(project.demo, '_blank');}}
-                    >
-                      {/* TODO: Link to project demo */}
-                      <a href=''>
-                        <ExternalLink className="w-4 h-4" />
-                        Demo
+                <div className="p-6">
+                  <div className="flex items-start justify-between mb-2">
+                    <h3 className="flex-1 text-foreground">{project.title}</h3>
+                    <span className="text-xs text-muted-foreground ml-2">{project.year}</span>
+                  </div>
+                  
+                  <p className="text-sm text-muted-foreground mb-4 line-clamp-3">
+                    {project.description}
+                  </p>
+                  
+                  <div className="flex flex-wrap gap-2 mb-4">
+                    {project.tags.slice(0, 4).map((tag) => (
+                      <Badge key={tag} variant="secondary" className="text-xs">
+                        {tag}
+                      </Badge>
+                    ))}
+                    {project.tags.length > 4 && (
+                      <Badge variant="secondary" className="text-xs">
+                        +{project.tags.length - 4}
+                      </Badge>
+                    )}
+                  </div>
+                  
+                  <div className="flex gap-2">
+                    <Button asChild variant="outline" size="sm" className="flex-1 gap-2">
+                      <a href={project.githubLink}>
+                        <Github className="w-4 h-4" />
+                        Code
                       </a>
                     </Button>
-                  )}
+                    {project.demo && (
+                      <Button asChild size="sm" className="flex-1 gap-2">
+                        <a href={project.externalLink}>
+                          <ExternalLink className="w-4 h-4" />
+                          Demo
+                        </a>
+                      </Button>
+                    )}
+                  </div>
                 </div>
-              </div>
-            </Card>
+              </Card>
+            </a>
           ))}
         </div>
 

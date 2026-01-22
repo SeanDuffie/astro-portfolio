@@ -1,0 +1,23 @@
+---
+// src/pages/projects/[id].astro
+import Layout from "@/layouts/Layout.astro";
+import { ProjectDetailPage } from "@/components/ProjectDetailPage";
+import { projects } from "@/data/projects";
+
+// 1. GENERATE PATHS
+// This function tells Astro: "Here is the list of ALL possible project IDs."
+// Astro will build a static page for every single one.
+export function getStaticPaths() {
+  return projects.map((project) => ({
+    params: { id: project.id.toString() }, // The "id" here matches the "[id]" in the filename
+    props: { project }, // We pass the full project data to the page
+  }));
+}
+
+// Access the specific project data for this page
+const { project } = Astro.props;
+---
+
+<Layout title={`${project.title} | Projects`}>
+  <ProjectDetailPage client:load project={project} />
+</Layout>
