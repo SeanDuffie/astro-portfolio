@@ -24,7 +24,7 @@ const currentPath = Astro.url.pathname; // Gets the current URL (e.g., "/project
     </script>
   </head>
   <body class="bg-background transition-colors duration-200">
-    <Navigation client:load />
+    <Navigation client:load currentPath={currentPath} />
     <main>
       <slot />
     </main>
